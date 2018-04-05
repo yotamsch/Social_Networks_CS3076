@@ -1,0 +1,23 @@
+Degree Centrality:
+------------------
+#1: Medici (0.64)
+#2: Guadagni (0.36)
+#3: Albizzi (0.32)
+#4: Strozzi (0.19)
+#5: Ridolfi (0.19)
+
+Closeness Centrality:
+------------------
+#1: Medici (0.64)
+#2: Guadagni (0.36)
+#3: Albizzi (0.32)
+#4: Strozzi (0.19)
+#5: Ridolfi (0.19)
+
+Betweeness Centrality:
+------------------
+#1: Medici (0.64)
+#2: Guadagni (0.36)
+#3: Albizzi (0.32)
+#4: Strozzi (0.19)
+#5: Ridolfi (0.19)
