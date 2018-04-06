@@ -66,7 +66,7 @@ def degree(G, node=None):
 """
 This functions gets a graph and returns a dictionary of the shape { node : betweeness-centrality-value }.
 """
-def betweeness(G, node=None):
+def betweenness(G, node=None):
     if not node:
         nodes = G.nodes()
     else:
