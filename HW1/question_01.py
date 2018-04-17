@@ -2,12 +2,15 @@ import collections
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
+import time
 
 # Nodes will be numbered from 0 to n-1.
 
 # Question 1a.
 def getErdosRenyiGraph(n, p):
 	G=nx.Graph()
+	for i in range(0,n):
+		G.add_node(i)
 	# Pass over n(n-1)/2 potential edges. Reminder:
 	# (n-1) + (n-2) + ... + 1 = n(n-1)/2
 	for i in range (0,n-1):
@@ -106,7 +109,7 @@ def getNodeCC(G, i):
 # standalone task, the implementation is heavily based on:
 # https://networkx.github.io/documentation/stable/auto_examples/drawing/plot_degree_histogram.html
 def showDegreeHist(G, graphType):
-	degree_sequence = sorted([degree for node, degree in G.degree().items()], reverse=True)  # degree sequence
+	degree_sequence = sorted([degree for node, degree in G.degree()], reverse=True)  # degree sequence
 	degreeCount = collections.Counter(degree_sequence)
 	deg, cnt = zip(*degreeCount.items())
 	_, ax = plt.subplots()
@@ -121,7 +124,6 @@ def showDegreeHist(G, graphType):
 	_ = sorted(nx.connected_component_subgraphs(G), key=len, reverse=True)[0]
 	# Show the histogram
 	plt.axis('off')
-	plt.tight_layout()
 	plt.show()
 
 	# Show the network (graph)
@@ -148,11 +150,13 @@ def performAnalysis(G, graphType):
 	showDegreeHist(G, graphType)
 
 def main():
+	t1 = time.time()
 	G_ER = getErdosRenyiGraph(1000, 0.2)
 	performAnalysis(G_ER , "an Erdos Renyi Graph")
 
 	G_SW = getSmallWorldGraph(1000, 8, 0.1)
 	performAnalysis(G_SW, "a Small World Graph")
+	print("Runtime: %.3f seconds" % (time.time() - t1))
 
 if __name__ == "__main__":
     main()

@@ -14,7 +14,6 @@ def simpleBFS(G, node):
     s_paths = {} # shortest paths
     queue.append(node)
     distance[node] = 0
-    ss_paths = []
     s_paths[node] = []
 
     while len(queue) != 0:
