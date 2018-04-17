@@ -59,7 +59,7 @@ def degree(G, node=None):
     num_of_nodes = len(G.nodes())
 
     for n in nodes:
-        node_degree = len(G.neighbors(n))
+        node_degree = len(list(G.neighbors(n)))
         result[n] = node_degree / (num_of_nodes - 1)
     return result
 
