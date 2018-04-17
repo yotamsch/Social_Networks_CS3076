@@ -6,9 +6,9 @@
 Notebook - https://docs.google.com/document/d/1WVSG5D_Ene_7mpVqcL1eXpoTd4w7epWR_wYlwfkx_8M/edit?usp=sharing
 ### Divided Work 
 Yotam
-* Question 2
+- [X] Question 2
 
 Ori
-* Question 1
-* Question 3
+- [X] Question 1
+- [ ] Question 3
 
