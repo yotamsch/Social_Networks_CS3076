@@ -16,8 +16,8 @@ Closeness Centrality:
 
 Betweenness Centrality:
 ------------------
-#1: Medici (0.64)
-#2: Guadagni (0.36)
-#3: Albizzi (0.32)
-#4: Strozzi (0.19)
-#5: Ridolfi (0.19)
+#1: Medici (0.52)
+#2: Guadagni (0.25)
+#3: Albizzi (0.21)
+#4: Salviati (0.14)
+#5: Ridolfi (0.11)

@@ -2,7 +2,6 @@ import collections
 import networkx as nx
 import matplotlib.pyplot as plt
 import random
-import time
 
 # Nodes will be numbered from 0 to n-1.
 
@@ -150,13 +149,11 @@ def performAnalysis(G, graphType):
 	showDegreeHist(G, graphType)
 
 def main():
-	t1 = time.time()
 	G_ER = getErdosRenyiGraph(1000, 0.2)
 	performAnalysis(G_ER , "an Erdos Renyi Graph")
 
 	G_SW = getSmallWorldGraph(1000, 8, 0.1)
 	performAnalysis(G_SW, "a Small World Graph")
-	print("Runtime: %.3f seconds" % (time.time() - t1))
 
 if __name__ == "__main__":
     main()
