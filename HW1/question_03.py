@@ -76,7 +76,7 @@ def is_balanced_triangle(G, t):
 	if edge_labels[w] == '+':
 		plus_counter += 1
 
-	return (plus_counter != 2)
+	return (plus_counter % 2 == 1)
 
 # Helper of 3c.
 def analyze_random_ER_graph(plus_probability):
