@@ -13,7 +13,7 @@ def check_balance(G):
 	triangles = [c for c in nx.cycle_basis(G) if len(c)==3]
 	non_balanced_triangles = [t for t in triangles if not is_balanced_triangle(G, t)]
 	# If all triangles in G are balanced, the list 'non_balanced_triangles' is empty.
-	return (len(non_balanced_triangles) == 0)
+	return (len(non_balanced_triangles) == 0), non_balanced_triangles
 	
 # Question 3b. The argument 'plus_probability' is the probability of
 # an edge to be labeled with the '+' sign.
@@ -41,17 +41,25 @@ def getSignedErdosRenyiGraph(plus_probability):
 
 	return G
 
+# Helper function of 3a. 
+# Returns the graph edges of the triangle.
+def get_triangle_edges(G, t):
+	# It is important to keep the smaller indexed node in the Left position,
+	# as this is how the output of 'get_edge_attributes' is arranged.
+	u = (t[0], t[1]) if t[0] < t[1] else (t[1], t[0])
+	v = (t[1], t[2]) if t[1] < t[2] else (t[2], t[1])
+	w = (t[0], t[2]) if t[0] < t[2] else (t[2], t[0])
+
+	return u,v,w
+
 # Helper function of 3a. Returns true iff the given triangle t is
 # balanced in the graph G.
 # Implementation note:
 # According to page 31 in lecture 3, a triangle is balanced iff its
 # amount of 'plus' labeled edges, is different than 2.
 def is_balanced_triangle(G, t):
-	# It is important to keep the smaller indexed node in the Left position,
-	# as this is how the output of 'get_edge_attributes' is arranged.
-	u = (t[0], t[1]) if t[0] < t[1] else (t[1], t[0])
-	v = (t[1], t[2]) if t[1] < t[2] else (t[2], t[1])
-	w = (t[0], t[2]) if t[0] < t[2] else (t[2], t[0])
+	# Get the edges of the triangle as they are in the graph
+	u,v,w = get_triangle_edges(G, t)
 
 	# Count the number of edges with a '+' label.
 	plus_counter = 0
@@ -74,12 +82,44 @@ def is_balanced_triangle(G, t):
 def analyze_random_ER_graph(plus_probability):
 	print("Generating an ER graph with n=30, p=0.5, label='+' with a probability of  " + str(plus_probability) + ":")
 	G = getSignedErdosRenyiGraph(plus_probability)
-	print("The generated graph is " + ("balanced." if check_balance(G) else "not balanced."))
-	show_graph(G)
+	is_balance, reasons = check_balance(G)
+	print("The generated graph is " + ("balanced." if is_balance else "not balanced."))
+	show_graph(G, reasons)
 
 # Helper of 3c.
-def show_graph(G):
-	print("Yotam please implement if you have time.")
+def show_graph(G, reasons):
+	# get a list of edges that cause the graph to be unbalanced
+	edge_reasons = []
+	for r in reasons:
+		u,v,w = get_triangle_edges(G, r)
+		edge_reasons.append(u)
+		edge_reasons.append(v)
+		edge_reasons.append(w)
+	
+	# get the edges of the graph to later draw _r means regular, _R means balded
+	eplus_r = [(u,v) for (u,v,d) in G.edges(data=True) if d['label'] =='+'and (u,v) not in edge_reasons]
+	eplus_R = [(u,v) for (u,v,d) in G.edges(data=True) if d['label'] =='+' and (u,v) in edge_reasons]
+	eminus_r = [(u,v) for (u,v,d) in G.edges(data=True) if d['label'] == '-'and (u,v) not in edge_reasons]
+	eminus_R = [(u,v) for (u,v,d) in G.edges(data=True) if d['label'] == '-'and (u,v) in edge_reasons]
+	
+	# Retrieve the positions from graph nodes and save to a dictionary
+	pos = nx.spring_layout(G)
+
+	# Draw nodes
+	nx.draw_networkx_nodes(G,pos,node_color='#cccccc',node_size=300)
+	
+	# Draw edges
+	nx.draw_networkx_edges(G,pos,edgelist=eplus_r, width=2, edge_color='g', alpha=0.1)
+	nx.draw_networkx_edges(G,pos,edgelist=eminus_r, width=2, edge_color='r', alpha=0.1, style='dashed')
+	nx.draw_networkx_edges(G,pos,edgelist=eplus_R, width=2, edge_color='g', alpha=1.0)
+	nx.draw_networkx_edges(G,pos,edgelist=eminus_R, width=2, edge_color='r', alpha=1.0, style='dashed')
+	
+	# Draw node labels
+	nx.draw_networkx_labels(G,pos,font_color='#333333',font_family='sans-serif')
+	
+	plt.axis('off')
+	plt.show()
+
 
 # Main function	
 def main():
